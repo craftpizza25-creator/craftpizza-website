@@ -11,6 +11,12 @@ function formatPrice(price: number) {
   return `${price.toFixed(2).replace(".", ",")} zł`
 }
 
+function resolveImageUrl(url: string | null | undefined): string | undefined {
+  if (!url) return undefined
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("/")) return url
+  return `${import.meta.env.BASE_URL}${url}`
+}
+
 export default function Home() {
   const { data: featuredItems, isLoading } = useGetFeaturedMenuItems()
 
@@ -153,7 +159,7 @@ export default function Home() {
                   <div className="relative aspect-square overflow-hidden rounded-sm mb-6 bg-secondary-foreground/5">
                     {item.imageUrl ? (
                       <img
-                        src={item.imageUrl}
+                        src={resolveImageUrl(item.imageUrl)}
                         alt={item.name}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
