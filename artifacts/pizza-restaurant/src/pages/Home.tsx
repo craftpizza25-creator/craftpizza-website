@@ -217,7 +217,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto border border-secondary-foreground/10">
             {/* Instagram */}
             <a
-              href="https://instagram.com/craftpizza25"
+              href="https://instagram.com/craft_pizzaa"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative overflow-hidden p-10 md:p-14 flex flex-col justify-between min-h-[360px] border-b md:border-b-0 md:border-r border-secondary-foreground/10 hover:bg-secondary-foreground/5 transition-colors duration-500"
@@ -241,22 +241,34 @@ export default function Home() {
                   Instagram
                 </p>
                 <h3 className="font-serif text-3xl md:text-4xl font-bold mb-4 group-hover:text-primary transition-colors duration-300">
-                  @craftpizza25
+                  @craft_pizzaa
                 </h3>
                 <p className="font-sans text-secondary-foreground/55 text-sm leading-relaxed max-w-xs">
                   Zdjęcia naszych pizz, włoskie składniki z bliska i codzienna atmosfera pizzerii.
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 text-primary font-medium text-sm mt-10 transition-all duration-300 group-hover:gap-4">
-                <span className="font-sans tracking-wide">Obserwuj</span>
-                <ArrowRight className="w-4 h-4" />
+              <div className="flex items-end justify-between mt-10 gap-6">
+                <div className="flex items-center gap-2 text-primary font-medium text-sm transition-all duration-300 group-hover:gap-4">
+                  <span className="font-sans tracking-wide">Obserwuj</span>
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+                <div className="shrink-0 flex flex-col items-center gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity duration-300">
+                  <img
+                    src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&bgcolor=2e2318&color=f5f0e8&data=https%3A%2F%2Finstagram.com%2Fcraft_pizzaa"
+                    alt="QR code — Instagram @craft_pizzaa"
+                    width={80}
+                    height={80}
+                    className="border border-secondary-foreground/15"
+                  />
+                  <span className="font-sans text-[9px] tracking-[0.15em] uppercase text-secondary-foreground/35">Zeskanuj</span>
+                </div>
               </div>
             </a>
 
             {/* TikTok */}
             <a
-              href="https://tiktok.com/@craftpizza25"
+              href="https://tiktok.com/@craft.pizza2"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative overflow-hidden p-10 md:p-14 flex flex-col justify-between min-h-[360px] hover:bg-secondary-foreground/5 transition-colors duration-500"
@@ -278,16 +290,28 @@ export default function Home() {
                   TikTok
                 </p>
                 <h3 className="font-serif text-3xl md:text-4xl font-bold mb-4 group-hover:text-primary transition-colors duration-300">
-                  @craftpizza25
+                  @craft.pizza2
                 </h3>
                 <p className="font-sans text-secondary-foreground/55 text-sm leading-relaxed max-w-xs">
                   Shortsy z rozciągania ciasta, kulisy pieca i włoskie smaki prosto z kuchni.
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 text-primary font-medium text-sm mt-10 transition-all duration-300 group-hover:gap-4">
-                <span className="font-sans tracking-wide">Obserwuj</span>
-                <ArrowRight className="w-4 h-4" />
+              <div className="flex items-end justify-between mt-10 gap-6">
+                <div className="flex items-center gap-2 text-primary font-medium text-sm transition-all duration-300 group-hover:gap-4">
+                  <span className="font-sans tracking-wide">Obserwuj</span>
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+                <div className="shrink-0 flex flex-col items-center gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity duration-300">
+                  <img
+                    src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&bgcolor=2e2318&color=f5f0e8&data=https%3A%2F%2Ftiktok.com%2F%40craft.pizza2"
+                    alt="QR code — TikTok @craft.pizza2"
+                    width={80}
+                    height={80}
+                    className="border border-secondary-foreground/15"
+                  />
+                  <span className="font-sans text-[9px] tracking-[0.15em] uppercase text-secondary-foreground/35">Zeskanuj</span>
+                </div>
               </div>
             </a>
           </div>
