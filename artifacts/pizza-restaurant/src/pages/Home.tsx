@@ -196,11 +196,6 @@ export default function Home() {
 
       {/* Social Media Section */}
       <section className="relative py-24 bg-secondary text-secondary-foreground overflow-hidden border-t border-secondary-foreground/10">
-        {/* Subtle horizontal rule texture */}
-        <div
-          className="absolute inset-0 pointer-events-none select-none opacity-[0.025]"
-          style={{ backgroundImage: "repeating-linear-gradient(0deg,currentColor,currentColor 1px,transparent 1px,transparent 48px)" }}
-        />
 
         <div className="container relative mx-auto px-4">
           {/* Header */}
@@ -214,13 +209,13 @@ export default function Home() {
           </div>
 
           {/* Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto border border-secondary-foreground/10">
+          <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto">
             {/* Instagram */}
             <a
-              href="https://instagram.com/craft_pizzaa"
+              href="https://www.instagram.com/craft_pizzaa/"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative overflow-hidden p-10 md:p-14 flex flex-col justify-between min-h-[360px] border-b md:border-b-0 md:border-r border-secondary-foreground/10 hover:bg-secondary-foreground/5 transition-colors duration-500"
+              className="group relative overflow-hidden p-10 md:p-14 flex flex-col justify-between min-h-[360px] hover:bg-secondary-foreground/5 transition-colors duration-500"
             >
               {/* Watermark */}
               <span className="absolute -bottom-6 -right-3 font-serif text-[120px] font-bold leading-none text-secondary-foreground/[0.04] select-none pointer-events-none transition-all duration-700 group-hover:text-secondary-foreground/[0.07] group-hover:scale-105 origin-bottom-right">
