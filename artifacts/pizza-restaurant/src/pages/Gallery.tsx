@@ -33,7 +33,7 @@ export default function Gallery() {
           </div>
         ) : (
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-            {items?.map((item) => (
+            {items?.filter((item) => item.imageUrl).map((item) => (
               <div key={item.id} className="break-inside-avoid relative group overflow-hidden rounded-sm bg-black">
                 {item.imageUrl ? (
                   <img
