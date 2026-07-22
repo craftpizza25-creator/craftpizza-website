@@ -55,8 +55,8 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground text-lg mb-1">Adres</h3>
-                    <p className="text-muted-foreground">ul. Włoska 12</p>
-                    <p className="text-muted-foreground">00-001 Warszawa</p>
+                    <p className="text-muted-foreground">ul. Flisaków 16, Łączany</p>
+                    <p className="text-muted-foreground">trasa velo Skawina</p>
                   </div>
                 </div>
 
@@ -66,8 +66,8 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground text-lg mb-1">Godziny otwarcia</h3>
-                    <p className="text-muted-foreground">Wtorek – Niedziela: 16:00 – 23:00</p>
-                    <p className="text-muted-foreground">Poniedziałek: Nieczynne</p>
+                    <p className="text-muted-foreground">Piątek: 18:00 – 22:00</p>
+                    <p className="text-muted-foreground">Sobota – Niedziela: 10:00 – 21:00</p>
                   </div>
                 </div>
 
@@ -77,7 +77,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground text-lg mb-1">Telefon</h3>
-                    <p className="text-muted-foreground">+48 500 000 000</p>
+                    <p className="text-muted-foreground">+48 888 118 175</p>
                   </div>
                 </div>
 
@@ -87,19 +87,24 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground text-lg mb-1">E-mail</h3>
-                    <p className="text-muted-foreground">kontakt@craftpizza.pl</p>
+                    <p className="text-muted-foreground">craftpizza25@gmail.com</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Placeholder Map */}
-            <div className="w-full h-64 bg-muted rounded-xl border border-border flex items-center justify-center overflow-hidden relative">
-              <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23000000\' fill-opacity=\'1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'3\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'3\'/%3E%3C/g%3E%3C/svg%3E")' }} />
-              <div className="text-center relative z-10">
-                <MapPin className="w-8 h-8 text-primary mx-auto mb-2 opacity-50" />
-                <span className="font-serif text-muted-foreground">Ładowanie mapy...</span>
-              </div>
+            {/* Google Maps embed */}
+            <div className="w-full h-64 rounded-xl border border-border overflow-hidden">
+              <iframe
+                title="Craft Pizza – mapa"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                src="https://maps.google.com/maps?q=XHJM%2BPH+%C5%81%C4%85czany&output=embed"
+              />
             </div>
           </div>
 

@@ -23,12 +23,12 @@ export function Footer() {
           <div>
             <h4 className="font-serif text-lg font-semibold mb-4">Odwiedź nas</h4>
             <address className="not-italic text-sm text-secondary-foreground/70 space-y-2">
-              <p>ul. Włoska 12</p>
-              <p>00-001 Warszawa</p>
+              <p>ul. Flisaków 16, Łączany</p>
+              <p>trasa velo Skawina</p>
               <p className="mt-4">
-                <strong>Wt – Nd:</strong> 16:00 – 23:00
+                <strong>Pt:</strong> 18:00 – 22:00
               </p>
-              <p><strong>Pon:</strong> Nieczynne</p>
+              <p><strong>Sob – Nd:</strong> 10:00 – 21:00</p>
             </address>
           </div>
 
