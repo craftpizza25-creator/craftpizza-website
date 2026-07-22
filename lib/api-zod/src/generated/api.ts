@@ -179,7 +179,7 @@ export const SubmitContactResponse = zod.object({
  */
 export const GetGalleryItemsResponseItem = zod.object({
   "id": zod.number(),
-  "imageUrl": zod.string(),
+  "imageUrl": zod.string().nullable(),
   "alt": zod.string(),
   "category": zod.string()
 })
