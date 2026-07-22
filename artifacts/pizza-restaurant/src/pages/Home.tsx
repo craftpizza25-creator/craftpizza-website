@@ -179,7 +179,7 @@ export default function Home() {
                       <h3 className="font-serif text-2xl font-semibold mb-2 group-hover:text-primary transition-colors">
                         {item.name}
                       </h3>
-                      <p className="text-secondary-foreground/70 font-sans text-sm line-clamp-2">
+                      <p className="text-secondary-foreground/70 font-sans text-sm">
                         {item.description}
                       </p>
                     </div>
