@@ -1,5 +1,6 @@
 import app from "./app";
 import { logger } from "./lib/logger";
+import { seedMenuImages } from "./lib/seed-menu-images";
 
 const rawPort = process.env["PORT"];
 
@@ -14,6 +15,8 @@ const port = Number(rawPort);
 if (Number.isNaN(port) || port <= 0) {
   throw new Error(`Invalid PORT value: "${rawPort}"`);
 }
+
+seedMenuImages().catch((err) => logger.error({ err }, "Failed to seed menu images"));
 
 app.listen(port, (err) => {
   if (err) {
