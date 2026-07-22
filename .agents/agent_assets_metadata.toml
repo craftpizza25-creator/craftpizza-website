@@ -1,0 +1,26 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "LPcMBT3vKHykMbP0-paHW"
+uri = "file://attached_assets/funghi_vinomat.jpg"
+type = "image"
+title = "Funghi — vinomat"
+
+[[outputs]]
+id = "N6G9EVLUZLsqIsmlzXR2G"
+uri = "file://attached_assets/funghi_smaki1.jpg"
+type = "image"
+title = "Funghi — smaki1"
+
+[[outputs]]
+id = "XQJjDF3J29uYnLHyGvdOO"
+uri = "file://attached_assets/funghi_smaki2.jpg"
+type = "image"
+title = "Funghi — smaki2 (składniki)"
+
+[[outputs]]
+id = "FSUmDvTuTEVKAhTBpqvPu"
+uri = "file://attached_assets/funghi_poezja.jpg"
+type = "image"
+title = "Funghi — poezja-smaku (neapolitańska)"
