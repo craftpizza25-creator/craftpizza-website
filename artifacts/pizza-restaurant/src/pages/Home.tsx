@@ -194,6 +194,111 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Social Media Section */}
+      <section className="relative py-24 bg-secondary text-secondary-foreground overflow-hidden border-t border-secondary-foreground/10">
+        {/* Subtle horizontal rule texture */}
+        <div
+          className="absolute inset-0 pointer-events-none select-none opacity-[0.025]"
+          style={{ backgroundImage: "repeating-linear-gradient(0deg,currentColor,currentColor 1px,transparent 1px,transparent 48px)" }}
+        />
+
+        <div className="container relative mx-auto px-4">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <span className="font-sans tracking-widest uppercase text-xs font-bold text-primary mb-3 block">
+              Śledź nasze życie
+            </span>
+            <h2 className="font-serif text-4xl md:text-5xl font-bold">
+              Jesteśmy tam, gdzie ty
+            </h2>
+          </div>
+
+          {/* Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto border border-secondary-foreground/10">
+            {/* Instagram */}
+            <a
+              href="https://instagram.com/craftpizza25"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative overflow-hidden p-10 md:p-14 flex flex-col justify-between min-h-[360px] border-b md:border-b-0 md:border-r border-secondary-foreground/10 hover:bg-secondary-foreground/5 transition-colors duration-500"
+            >
+              {/* Watermark */}
+              <span className="absolute -bottom-6 -right-3 font-serif text-[120px] font-bold leading-none text-secondary-foreground/[0.04] select-none pointer-events-none transition-all duration-700 group-hover:text-secondary-foreground/[0.07] group-hover:scale-105 origin-bottom-right">
+                IG
+              </span>
+
+              <div>
+                {/* Icon */}
+                <div className="mb-8 w-12 h-12 flex items-center justify-center border border-secondary-foreground/20 group-hover:border-primary/60 transition-colors duration-400">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-5 h-5 text-primary">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                    <circle cx="12" cy="12" r="4.5" />
+                    <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+                  </svg>
+                </div>
+
+                <p className="font-sans text-[10px] tracking-[0.2em] uppercase text-secondary-foreground/40 mb-1">
+                  Instagram
+                </p>
+                <h3 className="font-serif text-3xl md:text-4xl font-bold mb-4 group-hover:text-primary transition-colors duration-300">
+                  @craftpizza25
+                </h3>
+                <p className="font-sans text-secondary-foreground/55 text-sm leading-relaxed max-w-xs">
+                  Zdjęcia naszych pizz, włoskie składniki z bliska i codzienna atmosfera pizzerii.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 text-primary font-medium text-sm mt-10 transition-all duration-300 group-hover:gap-4">
+                <span className="font-sans tracking-wide">Obserwuj</span>
+                <ArrowRight className="w-4 h-4" />
+              </div>
+            </a>
+
+            {/* TikTok */}
+            <a
+              href="https://tiktok.com/@craftpizza25"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative overflow-hidden p-10 md:p-14 flex flex-col justify-between min-h-[360px] hover:bg-secondary-foreground/5 transition-colors duration-500"
+            >
+              {/* Watermark */}
+              <span className="absolute -bottom-6 -right-3 font-serif text-[120px] font-bold leading-none text-secondary-foreground/[0.04] select-none pointer-events-none transition-all duration-700 group-hover:text-secondary-foreground/[0.07] group-hover:scale-105 origin-bottom-right">
+                TT
+              </span>
+
+              <div>
+                {/* Icon */}
+                <div className="mb-8 w-12 h-12 flex items-center justify-center border border-secondary-foreground/20 group-hover:border-primary/60 transition-colors duration-400">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-primary">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.72a4.85 4.85 0 0 1-1.01-.03z" />
+                  </svg>
+                </div>
+
+                <p className="font-sans text-[10px] tracking-[0.2em] uppercase text-secondary-foreground/40 mb-1">
+                  TikTok
+                </p>
+                <h3 className="font-serif text-3xl md:text-4xl font-bold mb-4 group-hover:text-primary transition-colors duration-300">
+                  @craftpizza25
+                </h3>
+                <p className="font-sans text-secondary-foreground/55 text-sm leading-relaxed max-w-xs">
+                  Shortsy z rozciągania ciasta, kulisy pieca i włoskie smaki prosto z kuchni.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 text-primary font-medium text-sm mt-10 transition-all duration-300 group-hover:gap-4">
+                <span className="font-sans tracking-wide">Obserwuj</span>
+                <ArrowRight className="w-4 h-4" />
+              </div>
+            </a>
+          </div>
+
+          {/* Editorial quote */}
+          <p className="text-center text-secondary-foreground/25 font-serif italic text-base mt-12 tracking-wide">
+            „Każda pizza to historia — chodź za kulisy"
+          </p>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-24 bg-primary text-primary-foreground text-center">
         <div className="container mx-auto px-4 max-w-3xl">
