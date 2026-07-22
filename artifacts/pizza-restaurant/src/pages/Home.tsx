@@ -337,7 +337,7 @@ export default function Home() {
             <Button asChild size="lg" className="bg-secondary text-secondary-foreground hover:bg-secondary/90 text-base font-semibold px-8 h-14 rounded-none">
               <Link href="/order">Zamów online</Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 text-base font-semibold px-8 h-14 rounded-none">
+            <Button asChild variant="outline" size="lg" className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 text-base font-semibold px-8 h-14 rounded-none">
               <Link href="/contact">Zarezerwuj stolik</Link>
             </Button>
           </div>
