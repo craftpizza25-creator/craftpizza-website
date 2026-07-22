@@ -11,7 +11,7 @@ export function Footer() {
               <img
                 src={craftPizzaLogo}
                 alt="Craft Pizza"
-                className="h-14 w-auto object-contain"
+                className="h-14 w-auto object-contain mix-blend-multiply dark:mix-blend-screen"
               />
             </Link>
             <p className="mt-4 text-secondary-foreground/70 max-w-sm font-sans">

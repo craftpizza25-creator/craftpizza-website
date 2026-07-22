@@ -28,7 +28,7 @@ export function Navbar() {
           <img
             src={craftPizzaLogo}
             alt="Craft Pizza"
-            className="h-11 w-auto object-contain"
+            className="h-11 w-auto object-contain mix-blend-multiply dark:mix-blend-screen"
           />
         </Link>
 
