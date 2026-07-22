@@ -24,13 +24,13 @@ export default function Menu() {
   const { addItem } = useCart()
 
   return (
-    <div className="min-h-screen bg-background pt-8 pb-24">
+    <div className="min-h-screen bg-secondary text-secondary-foreground pt-8 pb-24">
       {/* Header */}
       <div className="container mx-auto px-4 text-center max-w-3xl mb-12">
-        <h1 className="font-serif text-5xl md:text-6xl font-bold text-foreground mb-6">
+        <h1 className="font-serif text-5xl md:text-6xl font-bold text-secondary-foreground mb-6">
           Nasze menu
         </h1>
-        <p className="font-sans text-lg text-muted-foreground">
+        <p className="font-sans text-lg text-secondary-foreground/60">
           Ręcznie rozciągane ciasto, pomidory San Marzano DOP i mozzarella fior di latte.
           Wszystko przygotowywane codziennie z oryginalnych włoskich składników.
         </p>
@@ -44,8 +44,8 @@ export default function Menu() {
             className={cn(
               "px-6 py-2 text-sm font-medium transition-all rounded-full border",
               activeCategory === "Wszystkie"
-                ? "bg-foreground text-background border-foreground"
-                : "bg-transparent text-foreground/70 border-border hover:border-foreground/30 hover:text-foreground"
+                ? "bg-secondary-foreground text-secondary border-secondary-foreground"
+                : "bg-transparent text-secondary-foreground/70 border-secondary-foreground/20 hover:border-secondary-foreground/50 hover:text-secondary-foreground"
             )}
           >
             Wszystkie
@@ -57,8 +57,8 @@ export default function Menu() {
               className={cn(
                 "px-6 py-2 text-sm font-medium transition-all rounded-full border",
                 activeCategory === cat.name
-                  ? "bg-foreground text-background border-foreground"
-                  : "bg-transparent text-foreground/70 border-border hover:border-foreground/30 hover:text-foreground"
+                  ? "bg-secondary-foreground text-secondary border-secondary-foreground"
+                  : "bg-transparent text-secondary-foreground/70 border-secondary-foreground/20 hover:border-secondary-foreground/50 hover:text-secondary-foreground"
               )}
             >
               {cat.name} <span className="ml-1 opacity-50">({cat.count})</span>
@@ -70,18 +70,18 @@ export default function Menu() {
         {itemsLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="animate-pulse flex gap-4 p-4 border border-border/50 rounded-lg">
-                <div className="w-24 h-24 bg-muted rounded-md shrink-0" />
+              <div key={i} className="animate-pulse flex gap-4 p-4 border border-secondary-foreground/10 rounded-lg">
+                <div className="w-24 h-24 bg-secondary-foreground/10 rounded-md shrink-0" />
                 <div className="space-y-3 flex-1">
-                  <div className="h-5 bg-muted w-3/4 rounded" />
-                  <div className="h-4 bg-muted w-full rounded" />
-                  <div className="h-4 bg-muted w-1/2 rounded" />
+                  <div className="h-5 bg-secondary-foreground/10 w-3/4 rounded" />
+                  <div className="h-4 bg-secondary-foreground/10 w-full rounded" />
+                  <div className="h-4 bg-secondary-foreground/10 w-1/2 rounded" />
                 </div>
               </div>
             ))}
           </div>
         ) : menuItems?.length === 0 ? (
-          <div className="text-center py-24 text-muted-foreground">
+          <div className="text-center py-24 text-secondary-foreground/50">
             <p className="text-xl font-serif">Brak pozycji w tej kategorii.</p>
           </div>
         ) : (
@@ -89,25 +89,25 @@ export default function Menu() {
             {menuItems?.map((item) => (
               <div
                 key={item.id}
-                className="group flex flex-col sm:flex-row gap-4 p-4 sm:p-0 rounded-xl sm:rounded-none bg-card sm:bg-transparent border border-border sm:border-none shadow-sm sm:shadow-none hover:bg-card sm:hover:bg-card sm:-mx-4 sm:px-4 sm:py-4 transition-colors"
+                className="group flex flex-col sm:flex-row gap-4 p-4 sm:p-0 rounded-xl sm:rounded-none bg-secondary-foreground/5 sm:bg-transparent border border-secondary-foreground/10 sm:border-none shadow-sm sm:shadow-none hover:bg-secondary-foreground/5 sm:hover:bg-secondary-foreground/5 sm:-mx-4 sm:px-4 sm:py-4 transition-colors"
               >
                 {/* Image */}
                 {item.imageUrl ? (
-                  <div className="w-full sm:w-28 h-48 sm:h-28 shrink-0 overflow-hidden rounded-md sm:rounded-sm bg-muted relative">
+                  <div className="w-full sm:w-28 h-48 sm:h-28 shrink-0 overflow-hidden rounded-md sm:rounded-sm bg-secondary-foreground/10 relative">
                     <img
                       src={item.imageUrl}
                       alt={item.name}
                       className="w-full h-full object-cover transition-transform group-hover:scale-110"
                     />
                     {!item.isAvailable && (
-                      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center">
-                        <span className="text-xs font-bold uppercase tracking-wider text-foreground">Wyczerpane</span>
+                      <div className="absolute inset-0 bg-secondary/80 backdrop-blur-sm flex items-center justify-center">
+                        <span className="text-xs font-bold uppercase tracking-wider text-secondary-foreground">Wyczerpane</span>
                       </div>
                     )}
                   </div>
                 ) : (
-                  <div className="w-full sm:w-28 h-48 sm:h-28 shrink-0 rounded-md sm:rounded-sm bg-muted flex items-center justify-center">
-                    <span className="font-serif text-muted-foreground">CP</span>
+                  <div className="w-full sm:w-28 h-48 sm:h-28 shrink-0 rounded-md sm:rounded-sm bg-secondary-foreground/10 flex items-center justify-center">
+                    <span className="font-serif text-secondary-foreground/40">CP</span>
                   </div>
                 )}
 
@@ -115,10 +115,10 @@ export default function Menu() {
                 <div className="flex-1 flex flex-col justify-center">
                   <div className="flex justify-between items-start mb-2">
                     <div>
-                      <h3 className="font-serif text-xl font-semibold flex items-center gap-2">
+                      <h3 className="font-serif text-xl font-semibold text-secondary-foreground flex items-center gap-2">
                         {item.name}
                         {item.isFeatured && (
-                          <span className="text-[10px] uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-sm font-sans font-bold">
+                          <span className="text-[10px] uppercase tracking-wider bg-primary/20 text-primary px-2 py-0.5 rounded-sm font-sans font-bold">
                             Polecane
                           </span>
                         )}
@@ -128,7 +128,7 @@ export default function Menu() {
                     <Button
                       variant="outline"
                       size="icon"
-                      className="shrink-0 h-8 w-8 rounded-full border-border bg-background hover:bg-primary hover:text-primary-foreground hover:border-primary disabled:opacity-50 transition-colors"
+                      className="shrink-0 h-8 w-8 rounded-full border-secondary-foreground/20 bg-transparent text-secondary-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary disabled:opacity-50 transition-colors"
                       disabled={!item.isAvailable}
                       onClick={() => addItem({ menuItemId: item.id, name: item.name, price: item.price })}
                     >
@@ -136,7 +136,7 @@ export default function Menu() {
                       <span className="sr-only">Dodaj {item.name} do koszyka</span>
                     </Button>
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2 sm:line-clamp-none">
+                  <p className="text-sm text-secondary-foreground/60 leading-relaxed line-clamp-2 sm:line-clamp-none">
                     {item.description}
                   </p>
                 </div>
