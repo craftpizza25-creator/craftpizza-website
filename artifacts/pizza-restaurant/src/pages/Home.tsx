@@ -111,12 +111,14 @@ export default function Home() {
               Tylko oryginalne włoskie składniki
             </h2>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {[
               { name: "Pomidory San Marzano", desc: "DOP, z wulkanicznych gleb Kampanii" },
               { name: "Mąka Tipo 00", desc: "Zmielona metodą tradycyjną" },
               { name: "Mozzarella Fior di Latte", desc: "Świeża, rozrywana ręcznie" },
               { name: "Oliwa z Oliwek EVO", desc: "Extra vergine z Sycylii" },
+              { name: "Szynka Cotto", desc: "Gotowana szynka wieprzowa, delikatna i soczysta" },
+              { name: "Prosciutto Crudo", desc: "Dojrzewające 18 miesięcy, prosto z Parmy" },
             ].map((item) => (
               <div key={item.name} className="text-center p-6 border border-border rounded-sm hover:border-primary transition-colors">
                 <h3 className="font-serif text-lg font-semibold text-foreground mb-2">{item.name}</h3>
