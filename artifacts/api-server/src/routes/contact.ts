@@ -3,6 +3,16 @@ import { db, contactSubmissionsTable } from "@workspace/db";
 import { SubmitContactBody, SubmitContactResponse } from "@workspace/api-zod";
 import nodemailer from "nodemailer";
 
+/** Escape a string for safe interpolation into HTML content or attribute values. */
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+}
+
 const router: IRouter = Router();
 
 const transporter = nodemailer.createTransport({
@@ -51,13 +61,13 @@ router.post("/contact", async (req, res): Promise<void> => {
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;border:1px solid #e5e7eb;border-radius:8px">
           <h2 style="margin-top:0;color:#1a1a1a">Nowa wiadomość z craftpizza.pl</h2>
           <table style="width:100%;border-collapse:collapse">
-            <tr><td style="padding:8px 0;color:#6b7280;width:140px">Imię i nazwisko</td><td style="padding:8px 0;font-weight:600">${parsed.data.name}</td></tr>
-            <tr><td style="padding:8px 0;color:#6b7280">E-mail</td><td style="padding:8px 0"><a href="mailto:${parsed.data.email}">${parsed.data.email}</a></td></tr>
-            ${parsed.data.phone ? `<tr><td style="padding:8px 0;color:#6b7280">Telefon</td><td style="padding:8px 0">${parsed.data.phone}</td></tr>` : ""}
+            <tr><td style="padding:8px 0;color:#6b7280;width:140px">Imię i nazwisko</td><td style="padding:8px 0;font-weight:600">${escapeHtml(parsed.data.name)}</td></tr>
+            <tr><td style="padding:8px 0;color:#6b7280">E-mail</td><td style="padding:8px 0"><a href="mailto:${escapeHtml(parsed.data.email)}">${escapeHtml(parsed.data.email)}</a></td></tr>
+            ${parsed.data.phone ? `<tr><td style="padding:8px 0;color:#6b7280">Telefon</td><td style="padding:8px 0">${escapeHtml(parsed.data.phone)}</td></tr>` : ""}
           </table>
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:16px 0"/>
           <p style="color:#6b7280;margin-bottom:4px">Wiadomość:</p>
-          <p style="white-space:pre-wrap;color:#1a1a1a">${parsed.data.message}</p>
+          <p style="white-space:pre-wrap;color:#1a1a1a">${escapeHtml(parsed.data.message)}</p>
         </div>
       `,
     });
