@@ -12,6 +12,8 @@ function formatPrice(price: number) {
   return `${price.toFixed(2).replace(".", ",")} zł`
 }
 
+const BOX_FEE = 2.00 // Opakowanie kartonowe
+
 // ── Opening-hours schedule ─────────────────────────────────────────────────
 // Keyed by JS getDay() value: 0=Sun, 1=Mon … 6=Sat
 const SCHEDULE: Record<number, { open: string; close: string; label: string }> = {
@@ -309,7 +311,7 @@ export default function Order() {
                   >
                     {createOrder.isPending
                       ? "Przetwarzanie..."
-                      : `Zamów na ${pickupTime || "–"} · ${formatPrice(total)}`}
+                      : `Zamów na ${pickupTime || "–"} · ${formatPrice(total + BOX_FEE)}`}
                   </Button>
                 </div>
 
@@ -372,10 +374,18 @@ export default function Order() {
                         </div>
                       ))}
                     </div>
-                    <div className="border-t border-border pt-4 space-y-3">
-                      <div className="flex justify-between font-bold text-lg text-foreground pt-1">
-                        <span>Do zapłaty</span>
+                    <div className="border-t border-border pt-4 space-y-2">
+                      <div className="flex justify-between text-sm text-muted-foreground">
+                        <span>Pozycje</span>
                         <span>{formatPrice(total)}</span>
+                      </div>
+                      <div className="flex justify-between text-sm text-muted-foreground">
+                        <span>Opakowanie kartonowe</span>
+                        <span>{formatPrice(BOX_FEE)}</span>
+                      </div>
+                      <div className="flex justify-between font-bold text-lg text-foreground border-t border-border pt-3 mt-1">
+                        <span>Do zapłaty</span>
+                        <span>{formatPrice(total + BOX_FEE)}</span>
                       </div>
                       <p className="text-xs text-muted-foreground">Ceny zawierają VAT. Płatność przy odbiorze.</p>
                     </div>

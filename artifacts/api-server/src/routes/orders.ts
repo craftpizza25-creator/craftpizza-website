@@ -46,7 +46,8 @@ router.post("/orders", async (req, res): Promise<void> => {
     };
   });
 
-  const total = resolvedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const BOX_FEE = 2.00; // Opakowanie kartonowe (stała opłata za odbiór osobisty)
+  const total = resolvedItems.reduce((sum, item) => sum + item.price * item.quantity, 0) + BOX_FEE;
 
   const [order] = await db
     .insert(ordersTable)

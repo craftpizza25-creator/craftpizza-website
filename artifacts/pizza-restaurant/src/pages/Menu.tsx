@@ -10,6 +10,8 @@ function formatPrice(price: number) {
   return `${price.toFixed(2).replace(".", ",")} zł`
 }
 
+const BOX_FEE = 2.00 // Opakowanie kartonowe
+
 export default function Menu() {
   const [activeCategory, setActiveCategory] = useState<string>("Wszystkie")
 
@@ -193,7 +195,10 @@ export default function Menu() {
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="font-bold text-lg">{formatPrice(total)}</span>
+                  <div className="text-right">
+                    <span className="font-bold text-lg">{formatPrice(total + BOX_FEE)}</span>
+                    <span className="block text-[11px] text-primary-foreground/60">w tym opakowanie 2,00 zł</span>
+                  </div>
                   <div className="flex items-center gap-1 bg-primary-foreground/20 rounded-xl px-3 py-1.5 text-sm font-semibold">
                     Zamów <ArrowRight className="h-3.5 w-3.5 ml-1" />
                   </div>
