@@ -25,6 +25,7 @@ export default function Menu() {
   )
 
   const { addItem, updateQuantity, items, count, total } = useCart()
+  const hasPizza = items.some(i => i.category === "Pizzas")
 
   const getItemQty = (id: number) =>
     items.find((i) => i.menuItemId === id)?.quantity ?? 0
@@ -138,7 +139,7 @@ export default function Menu() {
                       {qty === 0 ? (
                         <button
                           disabled={!item.isAvailable}
-                          onClick={() => addItem({ menuItemId: item.id, name: item.name, price: item.price })}
+                          onClick={() => addItem({ menuItemId: item.id, name: item.name, price: item.price, category: item.category })}
                           className="shrink-0 h-9 w-9 rounded-full border border-secondary-foreground/30 bg-transparent text-secondary-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center"
                           aria-label={`Dodaj ${item.name} do koszyka`}
                         >
@@ -157,7 +158,7 @@ export default function Menu() {
                             {qty}
                           </span>
                           <button
-                            onClick={() => addItem({ menuItemId: item.id, name: item.name, price: item.price })}
+                            onClick={() => addItem({ menuItemId: item.id, name: item.name, price: item.price, category: item.category })}
                             className="h-7 w-7 rounded-full flex items-center justify-center hover:bg-primary-foreground/20 text-primary-foreground transition-colors"
                             aria-label="Zwiększ ilość"
                           >
@@ -196,8 +197,10 @@ export default function Menu() {
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="text-right">
-                    <span className="font-bold text-lg">{formatPrice(total + BOX_FEE)}</span>
-                    <span className="block text-[11px] text-primary-foreground/60">w tym opakowanie 2,00 zł</span>
+                    <span className="font-bold text-lg">{formatPrice(total + (hasPizza ? BOX_FEE : 0))}</span>
+                    {hasPizza && (
+                      <span className="block text-[11px] text-primary-foreground/60">w tym opakowanie 2,00 zł</span>
+                    )}
                   </div>
                   <div className="flex items-center gap-1 bg-primary-foreground/20 rounded-xl px-3 py-1.5 text-sm font-semibold">
                     Zamów <ArrowRight className="h-3.5 w-3.5 ml-1" />

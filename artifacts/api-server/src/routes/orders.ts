@@ -52,7 +52,7 @@ const ORANGE = "#c85a1e";
 
 type ResolvedItem = { menuItemId: number; name: string; price: number; quantity: number };
 
-function itemsTableHtml(items: ResolvedItem[]): string {
+function itemsTableHtml(items: ResolvedItem[], boxFee: number): string {
   const rows = items.map((it) => `
     <tr>
       <td style="padding:10px 0;color:#1a1a1a;font-size:14px;">${esc(it.name)}</td>
@@ -62,6 +62,11 @@ function itemsTableHtml(items: ResolvedItem[]): string {
   `).join("");
 
   const itemsTotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
+  const boxFeeRow = boxFee > 0 ? `
+        <tr>
+          <td colspan="2" style="padding:8px 0;color:#888;font-size:13px;">Opakowanie kartonowe</td>
+          <td style="padding:8px 0;color:#888;font-size:13px;text-align:right;">${fmt(boxFee)}</td>
+        </tr>` : "";
 
   return `
     <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
@@ -76,13 +81,10 @@ function itemsTableHtml(items: ResolvedItem[]): string {
       <tbody>${rows}</tbody>
       <tfoot>
         <tr><td colspan="3" style="border-bottom:1px solid #f0ede8;padding:0;font-size:0;line-height:0;">&nbsp;</td></tr>
-        <tr>
-          <td colspan="2" style="padding:8px 0;color:#888;font-size:13px;">Opakowanie kartonowe</td>
-          <td style="padding:8px 0;color:#888;font-size:13px;text-align:right;">${fmt(BOX_FEE)}</td>
-        </tr>
+        ${boxFeeRow}
         <tr>
           <td colspan="2" style="padding:8px 0;font-weight:700;font-size:16px;color:#1a1a1a;">Do zapłaty</td>
-          <td style="padding:8px 0;font-weight:700;font-size:16px;color:${ORANGE};text-align:right;">${fmt(itemsTotal + BOX_FEE)}</td>
+          <td style="padding:8px 0;font-weight:700;font-size:16px;color:${ORANGE};text-align:right;">${fmt(itemsTotal + boxFee)}</td>
         </tr>
       </tfoot>
     </table>
@@ -94,7 +96,7 @@ function buildRestaurantEmail(order: {
   id: number; customerName: string; customerEmail: string; customerPhone: string;
   pickupDate: string | null; pickupTime: string | null;
   specialInstructions: string | null;
-}, items: ResolvedItem[]): string {
+}, items: ResolvedItem[], boxFee: number): string {
   const pickupLine = order.pickupDate
     ? `${formatDatePolish(order.pickupDate)}, godz. <strong>${esc(order.pickupTime ?? "")}</strong>`
     : "—";
@@ -127,7 +129,7 @@ function buildRestaurantEmail(order: {
     </table>
 
     <hr style="border:none;border-top:1px solid #f0ede8;margin:0 0 24px;"/>
-    ${itemsTableHtml(items)}
+    ${itemsTableHtml(items, boxFee)}
 
     ${order.specialInstructions ? `
     <div style="background:#fdf9f5;border-left:3px solid ${ORANGE};padding:12px 16px;margin-top:24px;border-radius:0 4px 4px 0;">
@@ -150,7 +152,7 @@ function buildRestaurantEmail(order: {
 function buildCustomerEmail(order: {
   id: number; customerName: string;
   pickupDate: string | null; pickupTime: string | null;
-}, items: ResolvedItem[]): string {
+}, items: ResolvedItem[], boxFee: number): string {
   const pickupLine = order.pickupDate
     ? `${formatDatePolish(order.pickupDate)}, godz. <strong>${esc(order.pickupTime ?? "")}</strong>`
     : "—";
@@ -177,7 +179,7 @@ function buildCustomerEmail(order: {
     </div>
 
     <!-- Items -->
-    ${itemsTableHtml(items)}
+    ${itemsTableHtml(items, boxFee)}
 
     <!-- Payment & no-show clause -->
     <div style="margin-top:28px;background:#fff8f0;border:1px solid #f5d8c0;border-radius:8px;padding:20px 24px;">
@@ -185,7 +187,7 @@ function buildCustomerEmail(order: {
       <ul style="margin:0;padding-left:18px;color:#555;font-size:13px;line-height:1.8;">
         <li>Zamówienie staje się <strong>wiążące z chwilą jego potwierdzenia</strong> przez klienta (odpowiedź POTWIERDZAM) oraz potwierdzenia przez Craft Pizza.</li>
         <li>Płatność jest <strong>wymagana przy odbiorze</strong> — gotówką lub kartą.</li>
-        <li>W przypadku <strong>nieodebrania potwierdzonego zamówienia</strong> w wybranym terminie Craft Pizza zastrzega sobie prawo do obciążenia klienta <strong>pełnym kosztem zamówienia</strong> (${fmt(items.reduce((s, i) => s + i.price * i.quantity, 0) + BOX_FEE)}).</li>
+        <li>W przypadku <strong>nieodebrania potwierdzonego zamówienia</strong> w wybranym terminie Craft Pizza zastrzega sobie prawo do obciążenia klienta <strong>pełnym kosztem zamówienia</strong> (${fmt(items.reduce((s, i) => s + i.price * i.quantity, 0) + boxFee)}).</li>
         <li>Anulowanie zamówienia jest możliwe wyłącznie przez kontakt mailowy lub telefoniczny <strong>co najmniej 2 godziny przed wybranym terminem odbioru.</strong></li>
       </ul>
     </div>
@@ -247,7 +249,9 @@ router.post("/orders", async (req, res): Promise<void> => {
     };
   });
 
-  const total = resolvedItems.reduce((sum, item) => sum + item.price * item.quantity, 0) + BOX_FEE;
+  const hasPizza = resolvedItems.some(item => menuItemMap.get(item.menuItemId)?.category === "Pizzas");
+  const appliedBoxFee = hasPizza ? BOX_FEE : 0;
+  const total = resolvedItems.reduce((sum, item) => sum + item.price * item.quantity, 0) + appliedBoxFee;
 
   const [order] = await db
     .insert(ordersTable)
@@ -281,7 +285,7 @@ router.post("/orders", async (req, res): Promise<void> => {
     to: "craftpizza25@gmail.com",
     replyTo: order.customerEmail,
     subject: `🍕 Nowe zamówienie #${orderForEmail.id} – odbiór ${order.pickupDate ?? ""} o ${order.pickupTime ?? ""}`,
-    html: buildRestaurantEmail(orderForEmail, resolvedItems),
+    html: buildRestaurantEmail(orderForEmail, resolvedItems, appliedBoxFee),
   }).catch((err) => console.error("Restaurant order email failed:", err));
 
   // 2. Confirm to customer
@@ -290,7 +294,7 @@ router.post("/orders", async (req, res): Promise<void> => {
     to: order.customerEmail,
     replyTo: "craftpizza25@gmail.com",
     subject: `Zamówienie #${orderForEmail.id} przyjęte – Craft Pizza 🍕`,
-    html: buildCustomerEmail(orderForEmail, resolvedItems),
+    html: buildCustomerEmail(orderForEmail, resolvedItems, appliedBoxFee),
   }).catch((err) => console.error("Customer order email failed:", err));
 
   res.status(201).json(

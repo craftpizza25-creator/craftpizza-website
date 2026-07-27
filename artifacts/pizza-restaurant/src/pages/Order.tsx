@@ -107,6 +107,8 @@ export default function Order() {
   // Reset time when date changes
   React.useEffect(() => { setPickupTime("") }, [pickupDate])
 
+  const hasPizza = items.some(i => i.category === "Pizzas")
+  const appliedBoxFee = hasPizza ? BOX_FEE : 0
   const canSubmit = items.length > 0 && pickupDate !== "" && pickupTime !== "" && acceptedTerms
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -340,7 +342,7 @@ export default function Order() {
                   >
                     {createOrder.isPending
                       ? "Przetwarzanie..."
-                      : `Zamów na ${pickupTime || "–"} · ${formatPrice(total + BOX_FEE)}`}
+                      : `Zamów na ${pickupTime || "–"} · ${formatPrice(total + appliedBoxFee)}`}
                   </Button>
                 </div>
 
@@ -408,13 +410,15 @@ export default function Order() {
                         <span>Pozycje</span>
                         <span>{formatPrice(total)}</span>
                       </div>
-                      <div className="flex justify-between text-sm text-muted-foreground">
-                        <span>Opakowanie kartonowe</span>
-                        <span>{formatPrice(BOX_FEE)}</span>
-                      </div>
+                      {appliedBoxFee > 0 && (
+                        <div className="flex justify-between text-sm text-muted-foreground">
+                          <span>Opakowanie kartonowe</span>
+                          <span>{formatPrice(appliedBoxFee)}</span>
+                        </div>
+                      )}
                       <div className="flex justify-between font-bold text-lg text-foreground border-t border-border pt-3 mt-1">
                         <span>Do zapłaty</span>
-                        <span>{formatPrice(total + BOX_FEE)}</span>
+                        <span>{formatPrice(total + appliedBoxFee)}</span>
                       </div>
                       <p className="text-xs text-muted-foreground">Ceny zawierają VAT. Płatność przy odbiorze.</p>
                     </div>
