@@ -100,7 +100,9 @@ export const CreateOrderBody = zod.object({
   "price": zod.number(),
   "quantity": zod.number()
 })),
-  "specialInstructions": zod.string().nullish()
+  "specialInstructions": zod.string().nullish(),
+  "pickupDate": zod.string().optional(),
+  "pickupTime": zod.string().optional()
 })
 
 export const CreateOrderResponse = zod.object({

@@ -55,6 +55,10 @@ export interface OrderInput {
   items: OrderLineItem[];
   /** @nullable */
   specialInstructions?: string | null;
+  /** YYYY-MM-DD pickup date for self-collection orders */
+  pickupDate?: string;
+  /** HH:MM pickup time for self-collection orders */
+  pickupTime?: string;
 }
 
 export type OrderStatus = typeof OrderStatus[keyof typeof OrderStatus];

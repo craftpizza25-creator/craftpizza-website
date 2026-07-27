@@ -17,7 +17,7 @@ router.post("/orders", async (req, res): Promise<void> => {
     return;
   }
 
-  const { items, orderType, deliveryAddress, specialInstructions, ...rest } = parsed.data;
+  const { items, orderType, deliveryAddress, specialInstructions, pickupDate, pickupTime, ...rest } = parsed.data;
 
   // Look up authoritative prices from the database; reject any unknown menu items
   const menuItemIds = items.map((item) => item.menuItemId);
@@ -58,6 +58,8 @@ router.post("/orders", async (req, res): Promise<void> => {
       total: total.toFixed(2),
       status: "pending",
       specialInstructions: specialInstructions ?? null,
+      pickupDate: pickupDate ?? null,
+      pickupTime: pickupTime ?? null,
     })
     .returning();
 

@@ -18,6 +18,8 @@ export const ordersTable = pgTable("orders", {
   total: numeric("total", { precision: 10, scale: 2 }).notNull(),
   status: text("status").notNull().default("pending"), // pending | confirmed | preparing | ready | delivered | cancelled
   specialInstructions: text("special_instructions"),
+  pickupDate: text("pickup_date"),   // YYYY-MM-DD
+  pickupTime: text("pickup_time"),   // HH:MM
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
