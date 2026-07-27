@@ -14,6 +14,7 @@ export function Navbar() {
     { href: "/", label: "Strona główna" },
     { href: "/menu", label: "Menu" },
     { href: "/gallery", label: "Galeria" },
+    { href: "/calendar", label: "Kalendarz" },
     { href: "/contact", label: "Kontakt" },
   ]
 

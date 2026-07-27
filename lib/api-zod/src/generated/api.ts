@@ -186,3 +186,23 @@ export const GetGalleryItemsResponseItem = zod.object({
 export const GetGalleryItemsResponse = zod.array(GetGalleryItemsResponseItem)
 
 
+/**
+ * @summary List calendar events
+ */
+export const GetCalendarEventsQueryParams = zod.object({
+  "from": zod.coerce.string().optional()
+})
+
+export const GetCalendarEventsResponseItem = zod.object({
+  "id": zod.number(),
+  "title": zod.string(),
+  "description": zod.string().nullable(),
+  "date": zod.string(),
+  "startTime": zod.string().nullable(),
+  "endTime": zod.string().nullable(),
+  "type": zod.string(),
+  "isPublished": zod.boolean()
+})
+export const GetCalendarEventsResponse = zod.array(GetCalendarEventsResponseItem)
+
+

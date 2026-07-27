@@ -116,3 +116,21 @@ export type GetMenuItemsParams = {
 category?: string;
 };
 
+export interface CalendarEvent {
+  id: number;
+  title: string;
+  /** @nullable */
+  description: string | null;
+  date: string;
+  /** @nullable */
+  startTime: string | null;
+  /** @nullable */
+  endTime: string | null;
+  type: string;
+  isPublished: boolean;
+}
+
+export type GetCalendarEventsParams = {
+  from?: string;
+};
+

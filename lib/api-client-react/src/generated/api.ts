@@ -743,6 +743,50 @@ export function useGetGalleryItems<TData = Awaited<ReturnType<typeof getGalleryI
 }
 
 
+/**
+ * @summary List calendar events
+ */
+
+import type { CalendarEvent, GetCalendarEventsParams } from './api.schemas';
+
+export const getCalendarEvents = async (params?: GetCalendarEventsParams, options?: RequestInit): Promise<CalendarEvent[]> => {
+  const searchParams = new URLSearchParams();
+  if (params?.from) searchParams.set('from', params.from);
+  const query = searchParams.toString();
+  return customFetch<CalendarEvent[]>(
+    `/api/calendar-events${query ? `?${query}` : ''}`,
+    { ...options, method: 'GET' }
+  );
+};
+
+export const getGetCalendarEventsQueryKey = (params?: GetCalendarEventsParams) => {
+  return [`/api/calendar-events`, ...(params ? [params] : [])] as const;
+};
+
+export const getGetCalendarEventsQueryOptions = <TData = Awaited<ReturnType<typeof getCalendarEvents>>, TError = ErrorType<unknown>>(
+  params?: GetCalendarEventsParams,
+  options?: { query?: UseQueryOptions<Awaited<ReturnType<typeof getCalendarEvents>>, TError, TData>, request?: SecondParameter<typeof customFetch> }
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetCalendarEventsQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getCalendarEvents>>> = ({ signal }) =>
+    getCalendarEvents(params, { signal, ...requestOptions });
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<Awaited<ReturnType<typeof getCalendarEvents>>, TError, TData> & { queryKey: QueryKey };
+};
+
+export type GetCalendarEventsQueryResult = NonNullable<Awaited<ReturnType<typeof getCalendarEvents>>>;
+export type GetCalendarEventsQueryError = ErrorType<unknown>;
+
+export function useGetCalendarEvents<TData = Awaited<ReturnType<typeof getCalendarEvents>>, TError = ErrorType<unknown>>(
+  params?: GetCalendarEventsParams,
+  options?: { query?: UseQueryOptions<Awaited<ReturnType<typeof getCalendarEvents>>, TError, TData>, request?: SecondParameter<typeof customFetch> }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetCalendarEventsQueryOptions(params, options);
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey };
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
 
 
 
