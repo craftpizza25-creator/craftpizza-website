@@ -91,6 +91,7 @@ export default function Order() {
   const [pickupTime, setPickupTime] = React.useState<string>("")
   const [successData, setSuccessData] = React.useState<{ id: string; date: string; time: string } | null>(null)
   const [acceptedTerms, setAcceptedTerms] = React.useState(false)
+  const formRef = React.useRef<HTMLFormElement>(null)
 
   const createOrder = useCreateOrder()
 
@@ -133,6 +134,10 @@ export default function Order() {
       onSuccess: (data) => {
         setSuccessData({ id: String(data.id), date: pickupDate, time: pickupTime })
         clearCart()
+        formRef.current?.reset()
+        setPickupDate("")
+        setPickupTime("")
+        setAcceptedTerms(false)
         window.scrollTo({ top: 0, behavior: "smooth" })
       }
     })
@@ -205,7 +210,7 @@ export default function Order() {
                 <Button asChild><Link href="/menu">Przeglądaj menu</Link></Button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-8" id="checkout-form">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-8" id="checkout-form">
 
                 {/* ── 1. Termin odbioru ─────────────────────────────── */}
                 <div className="space-y-6 bg-card border border-border p-6 rounded-xl">
