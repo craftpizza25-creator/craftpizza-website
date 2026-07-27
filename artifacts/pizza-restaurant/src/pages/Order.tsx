@@ -90,6 +90,7 @@ export default function Order() {
   const [pickupDate, setPickupDate] = React.useState<string>("")
   const [pickupTime, setPickupTime] = React.useState<string>("")
   const [successData, setSuccessData] = React.useState<{ id: string; date: string; time: string } | null>(null)
+  const [acceptedTerms, setAcceptedTerms] = React.useState(false)
 
   const createOrder = useCreateOrder()
 
@@ -105,7 +106,7 @@ export default function Order() {
   // Reset time when date changes
   React.useEffect(() => { setPickupTime("") }, [pickupDate])
 
-  const canSubmit = items.length > 0 && pickupDate !== "" && pickupTime !== ""
+  const canSubmit = items.length > 0 && pickupDate !== "" && pickupTime !== "" && acceptedTerms
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -298,8 +299,31 @@ export default function Order() {
                   </div>
                 </div>
 
+                {/* ── 4. Warunki zamówienia ─────────────────────────── */}
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 space-y-3">
+                  <h3 className="text-sm font-bold text-amber-900 uppercase tracking-wide">⚠️ Warunki zamówienia i płatności</h3>
+                  <ul className="text-xs text-amber-800 space-y-1.5 list-disc list-inside leading-relaxed">
+                    <li>Po złożeniu zamówienia otrzymasz e-mail z prośbą o potwierdzenie — odpowiedz słowem <strong>POTWIERDZAM</strong>.</li>
+                    <li>Zamówienie jest wiążące z chwilą jego potwierdzenia przez obie strony.</li>
+                    <li><strong>Płatność wymagana przy odbiorze</strong> — gotówką lub kartą.</li>
+                    <li>W przypadku nieodebrania potwierdzonego zamówienia Craft Pizza zastrzega sobie prawo do obciążenia klienta <strong>pełnym kosztem zamówienia</strong>.</li>
+                    <li>Anulowanie możliwe <strong>co najmniej 2 godziny przed odbiorem</strong> — mailowo lub telefonicznie.</li>
+                  </ul>
+                  <label className="flex items-start gap-3 cursor-pointer group pt-1">
+                    <input
+                      type="checkbox"
+                      checked={acceptedTerms}
+                      onChange={(e) => setAcceptedTerms(e.target.checked)}
+                      className="mt-0.5 h-4 w-4 rounded border-amber-400 accent-primary shrink-0 cursor-pointer"
+                    />
+                    <span className="text-xs text-amber-900 font-medium leading-relaxed group-hover:text-amber-950">
+                      Zapoznałem/am się z warunkami zamówienia i akceptuję politykę dotyczącą nieodebranych zamówień.
+                    </span>
+                  </label>
+                </div>
+
                 {/* ── Submit ────────────────────────────────────────── */}
-                <div className="flex justify-between items-center pt-4">
+                <div className="flex justify-between items-center pt-2">
                   <Link href="/menu" className="flex items-center gap-2 text-muted-foreground hover:text-foreground font-medium text-sm transition-colors">
                     <ArrowLeft className="w-4 h-4" /> Dodaj więcej
                   </Link>
