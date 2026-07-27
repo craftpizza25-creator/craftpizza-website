@@ -9,6 +9,7 @@ import Order from '@/pages/Order';
 import Gallery from '@/pages/Gallery';
 import Contact from '@/pages/Contact';
 import CalendarPage from '@/pages/Calendar';
+import Admin from '@/pages/Admin';
 
 const queryClient = new QueryClient();
 
@@ -50,6 +51,7 @@ function Router() {
         <Route path="/gallery" component={Gallery} />
         <Route path="/contact" component={Contact} />
         <Route path="/calendar" component={CalendarPage} />
+        <Route path="/admin" component={Admin} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
