@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
-import { eq } from "drizzle-orm";
-import { db, ordersTable } from "@workspace/db";
+import { eq, inArray } from "drizzle-orm";
+import { db, ordersTable, menuItemsTable } from "@workspace/db";
 import {
   CreateOrderBody,
   GetOrderParams,
@@ -19,7 +19,34 @@ router.post("/orders", async (req, res): Promise<void> => {
 
   const { items, orderType, deliveryAddress, specialInstructions, ...rest } = parsed.data;
 
-  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  // Look up authoritative prices from the database; reject any unknown menu items
+  const menuItemIds = items.map((item) => item.menuItemId);
+  const menuItems = await db
+    .select()
+    .from(menuItemsTable)
+    .where(inArray(menuItemsTable.id, menuItemIds));
+
+  const menuItemMap = new Map(menuItems.map((mi) => [mi.id, mi]));
+
+  for (const item of items) {
+    if (!menuItemMap.has(item.menuItemId)) {
+      res.status(400).json({ error: `Menu item ${item.menuItemId} not found` });
+      return;
+    }
+  }
+
+  // Build order items using server-side prices and names; ignore client-supplied price
+  const resolvedItems = items.map((item) => {
+    const menuItem = menuItemMap.get(item.menuItemId)!;
+    return {
+      menuItemId: item.menuItemId,
+      name: menuItem.name,
+      price: parseFloat(menuItem.price),
+      quantity: item.quantity,
+    };
+  });
+
+  const total = resolvedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const [order] = await db
     .insert(ordersTable)
@@ -27,7 +54,7 @@ router.post("/orders", async (req, res): Promise<void> => {
       ...rest,
       orderType,
       deliveryAddress: deliveryAddress ?? null,
-      items: items,
+      items: resolvedItems,
       total: total.toFixed(2),
       status: "pending",
       specialInstructions: specialInstructions ?? null,

@@ -104,7 +104,7 @@ export const CreateOrderBody = zod.object({
 })
 
 export const CreateOrderResponse = zod.object({
-  "id": zod.number(),
+  "id": zod.string().uuid(),
   "customerName": zod.string(),
   "customerEmail": zod.string(),
   "customerPhone": zod.string(),
@@ -127,11 +127,11 @@ export const CreateOrderResponse = zod.object({
  * @summary Get order status
  */
 export const GetOrderParams = zod.object({
-  "id": zod.coerce.number()
+  "id": zod.string().uuid()
 })
 
 export const GetOrderResponse = zod.object({
-  "id": zod.number(),
+  "id": zod.string().uuid(),
   "customerName": zod.string(),
   "customerEmail": zod.string(),
   "customerPhone": zod.string(),
