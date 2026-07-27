@@ -1,16 +1,39 @@
 import { useGetCalendarEvents } from "@workspace/api-client-react"
 import { CalendarDays, Clock, MapPin, Phone, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useEffect, useState } from "react"
 
-const OPENING_HOURS = [
-  { day: "Poniedziałek", hours: "Nieczynne" },
-  { day: "Wtorek", hours: "Nieczynne" },
-  { day: "Środa", hours: "12:00 – 21:00" },
-  { day: "Czwartek", hours: "12:00 – 21:00" },
-  { day: "Piątek", hours: "12:00 – 22:00" },
-  { day: "Sobota", hours: "12:00 – 22:00" },
-  { day: "Niedziela", hours: "12:00 – 21:00" },
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "")
+
+interface OpeningHour {
+  id: number
+  dayIndex: number
+  dayName: string
+  openTime: string | null
+  closeTime: string | null
+  isClosed: boolean
+}
+
+const FALLBACK_HOURS = [
+  { dayName: "Poniedziałek", isClosed: true,  openTime: null,    closeTime: null    },
+  { dayName: "Wtorek",       isClosed: true,  openTime: null,    closeTime: null    },
+  { dayName: "Środa",        isClosed: false, openTime: "12:00", closeTime: "21:00" },
+  { dayName: "Czwartek",     isClosed: false, openTime: "12:00", closeTime: "21:00" },
+  { dayName: "Piątek",       isClosed: false, openTime: "12:00", closeTime: "22:00" },
+  { dayName: "Sobota",       isClosed: false, openTime: "12:00", closeTime: "22:00" },
+  { dayName: "Niedziela",    isClosed: false, openTime: "12:00", closeTime: "21:00" },
 ]
+
+function useOpeningHours() {
+  const [hours, setHours] = useState<OpeningHour[] | null>(null)
+  useEffect(() => {
+    fetch(`${BASE}/api/opening-hours`)
+      .then((r) => r.ok ? r.json() : Promise.reject())
+      .then(setHours)
+      .catch(() => setHours(null))
+  }, [])
+  return hours
+}
 
 const TODAY = new Date().toLocaleDateString("pl-PL", { weekday: "long" })
   .replace(/^\w/, (c) => c.toUpperCase())
@@ -30,6 +53,8 @@ function formatDate(dateStr: string) {
 
 export default function CalendarPage() {
   const { data: events, isLoading } = useGetCalendarEvents()
+  const fetchedHours = useOpeningHours()
+  const displayHours = fetchedHours ?? FALLBACK_HOURS
 
   return (
     <div className="min-h-screen bg-secondary text-secondary-foreground">
@@ -62,11 +87,12 @@ export default function CalendarPage() {
                 <h2 className="font-serif text-2xl font-bold">Godziny otwarcia</h2>
               </div>
               <div className="space-y-1">
-                {OPENING_HOURS.map(({ day, hours }) => {
-                  const isToday = day.toLowerCase() === TODAY.toLowerCase()
+                {displayHours.map((row) => {
+                  const isToday = row.dayName.toLowerCase() === TODAY.toLowerCase()
+                  const label = row.isClosed ? "Nieczynne" : `${row.openTime} – ${row.closeTime}`
                   return (
                     <div
-                      key={day}
+                      key={row.dayName}
                       className={cn(
                         "flex justify-between items-center py-2.5 px-3 rounded-sm text-sm",
                         isToday
@@ -74,9 +100,9 @@ export default function CalendarPage() {
                           : "hover:bg-secondary-foreground/5 text-secondary-foreground/80"
                       )}
                     >
-                      <span>{day}</span>
-                      <span className={cn(hours === "Nieczynne" && !isToday && "text-secondary-foreground/40")}>
-                        {hours}
+                      <span>{row.dayName}</span>
+                      <span className={cn(row.isClosed && !isToday && "text-secondary-foreground/40")}>
+                        {label}
                       </span>
                     </div>
                   )

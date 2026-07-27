@@ -6,6 +6,8 @@ import contactRouter from "./contact";
 import galleryRouter from "./gallery";
 import calendarRouter from "./calendar";
 import adminCalendarRouter from "./admin-calendar";
+import openingHoursRouter from "./opening-hours";
+import adminOpeningHoursRouter from "./admin-opening-hours";
 
 const router: IRouter = Router();
 
@@ -16,5 +18,7 @@ router.use(contactRouter);
 router.use(galleryRouter);
 router.use(calendarRouter);
 router.use(adminCalendarRouter);
+router.use(openingHoursRouter);
+router.use(adminOpeningHoursRouter);
 
 export default router;
