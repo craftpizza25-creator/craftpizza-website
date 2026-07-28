@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Link } from "wouter"
-import { ArrowRight, Clock, MapPin } from "lucide-react"
+import { ArrowRight, Clock, MapPin, Banknote, CreditCard } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useGetFeaturedMenuItems } from "@workspace/api-client-react"
 import heroBg from "@assets/generated_images/hero-bg.jpg"
@@ -125,6 +125,54 @@ export default function Home() {
                 <p className="text-sm text-muted-foreground">{item.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Payment Methods */}
+      <section className="py-12 bg-background border-t border-border">
+        <div className="container mx-auto px-4 max-w-3xl">
+          <div className="text-center mb-8">
+            <span className="font-sans tracking-widest uppercase text-xs font-bold text-primary mb-2 block">
+              Płatności
+            </span>
+            <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground">
+              Akceptowane formy płatności
+            </h2>
+          </div>
+          <div className="grid grid-cols-3 gap-4 md:gap-8">
+            {/* Cash */}
+            <div className="flex flex-col items-center gap-3 p-6 border border-border rounded-sm hover:border-primary/40 transition-colors">
+              <div className="w-12 h-12 flex items-center justify-center rounded-sm bg-primary/10">
+                <Banknote className="h-6 w-6 text-primary" />
+              </div>
+              <span className="font-serif text-lg font-semibold text-foreground text-center">Gotówka</span>
+              <span className="text-xs text-muted-foreground font-sans text-center">Płatność przy odbiorze</span>
+            </div>
+
+            {/* Credit Card */}
+            <div className="flex flex-col items-center gap-3 p-6 border border-border rounded-sm hover:border-primary/40 transition-colors">
+              <div className="w-12 h-12 flex items-center justify-center rounded-sm bg-primary/10">
+                <CreditCard className="h-6 w-6 text-primary" />
+              </div>
+              <span className="font-serif text-lg font-semibold text-foreground text-center">Karta</span>
+              <span className="text-xs text-muted-foreground font-sans text-center">Visa, Mastercard i inne</span>
+            </div>
+
+            {/* BLIK */}
+            <div className="flex flex-col items-center gap-3 p-6 border border-border rounded-sm hover:border-primary/40 transition-colors">
+              <div className="w-12 h-12 flex items-center justify-center rounded-sm bg-primary/10">
+                {/* BLIK-style icon: mobile phone with a bold code indicator */}
+                <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6 text-primary" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="5" y="2" width="14" height="20" rx="2" />
+                  <line x1="9" y1="9" x2="15" y2="9" />
+                  <line x1="8" y1="12" x2="16" y2="12" />
+                  <line x1="9" y1="15" x2="15" y2="15" />
+                </svg>
+              </div>
+              <span className="font-serif text-lg font-semibold text-foreground text-center">BLIK</span>
+              <span className="text-xs text-muted-foreground font-sans text-center">Szybka płatność mobilna</span>
+            </div>
           </div>
         </div>
       </section>
