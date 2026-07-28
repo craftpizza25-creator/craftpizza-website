@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Link } from "wouter"
-import { ArrowRight, Clock, MapPin, Banknote } from "lucide-react"
+import { ArrowRight, Clock, MapPin, Coins } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useGetFeaturedMenuItems } from "@workspace/api-client-react"
 import heroBg from "@assets/generated_images/hero-bg.jpg"
@@ -147,7 +147,7 @@ export default function Home() {
             {/* Cash */}
             <div className="flex flex-col items-center gap-3 p-6 border border-border rounded-sm hover:border-primary/40 transition-colors">
               <div className="w-16 h-12 flex items-center justify-center rounded-sm bg-primary/10">
-                <Banknote className="h-6 w-6 text-primary" />
+                <Coins className="h-6 w-6 text-primary" />
               </div>
               <span className="font-serif text-lg font-semibold text-foreground text-center">Gotówka</span>
               <span className="text-xs text-muted-foreground font-sans text-center">Płatność przy odbiorze</span>
