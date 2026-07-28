@@ -2,6 +2,7 @@ import app from "./app";
 import { logger } from "./lib/logger";
 import { seedMenuImages } from "./lib/seed-menu-images";
 import { seedOpeningHours } from "./lib/seed-opening-hours";
+import { seedAppSettings } from "./lib/seed-app-settings";
 
 const rawPort = process.env["PORT"];
 
@@ -19,6 +20,7 @@ if (Number.isNaN(port) || port <= 0) {
 
 seedMenuImages().catch((err) => logger.error({ err }, "Failed to seed menu images"));
 seedOpeningHours().catch((err) => logger.error({ err }, "Failed to seed opening hours"));
+seedAppSettings().catch((err) => logger.error({ err }, "Failed to seed app settings"));
 
 app.listen(port, (err) => {
   if (err) {

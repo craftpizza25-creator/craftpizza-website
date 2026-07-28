@@ -8,6 +8,7 @@ import {
   CreateOrderResponse,
 } from "@workspace/api-zod";
 import nodemailer from "nodemailer";
+import { sendOrderNotification } from "../lib/telegram";
 
 const router: IRouter = Router();
 
@@ -296,6 +297,10 @@ router.post("/orders", async (req, res): Promise<void> => {
     subject: `Zamówienie #${orderForEmail.id} przyjęte – Craft Pizza 🍕`,
     html: buildCustomerEmail(orderForEmail, resolvedItems, appliedBoxFee),
   }).catch((err) => console.error("Customer order email failed:", err));
+
+  // 3. Telegram notification (non-blocking)
+  sendOrderNotification(orderForEmail, resolvedItems, total)
+    .catch((err) => console.error("Telegram notification failed:", err));
 
   res.status(201).json(
     CreateOrderResponse.parse({

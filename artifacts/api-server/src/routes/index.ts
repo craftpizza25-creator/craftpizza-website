@@ -8,6 +8,7 @@ import calendarRouter from "./calendar";
 import adminCalendarRouter from "./admin-calendar";
 import openingHoursRouter from "./opening-hours";
 import adminOpeningHoursRouter from "./admin-opening-hours";
+import adminTelegramRouter from "./admin-telegram";
 
 const router: IRouter = Router();
 
@@ -20,5 +21,6 @@ router.use(calendarRouter);
 router.use(adminCalendarRouter);
 router.use(openingHoursRouter);
 router.use(adminOpeningHoursRouter);
+router.use(adminTelegramRouter);
 
 export default router;

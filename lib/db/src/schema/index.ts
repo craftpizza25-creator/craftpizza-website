@@ -4,3 +4,4 @@ export * from "./contact-submissions";
 export * from "./gallery-items";
 export * from "./calendar-events";
 export * from "./opening-hours";
+export * from "./app-settings";
