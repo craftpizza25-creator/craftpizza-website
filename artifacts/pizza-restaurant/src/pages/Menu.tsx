@@ -124,9 +124,14 @@ export default function Menu() {
                   <div className="flex-1 flex flex-col justify-center">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <h3 className="font-serif text-xl font-semibold text-secondary-foreground flex items-center gap-2">
+                        <h3 className="font-serif text-xl font-semibold text-secondary-foreground flex items-center gap-2 flex-wrap">
                           {item.name}
-                          {item.isFeatured && (
+                          {item.id === 22 && (
+                            <span className="text-[10px] uppercase tracking-wider bg-primary text-primary-foreground px-2 py-0.5 rounded-sm font-sans font-bold animate-pulse">
+                              Pizza tygodnia!!
+                            </span>
+                          )}
+                          {item.isFeatured && item.id !== 22 && (
                             <span className="text-[10px] uppercase tracking-wider bg-primary/20 text-primary px-2 py-0.5 rounded-sm font-sans font-bold">
                               Polecane
                             </span>
