@@ -7,6 +7,14 @@ import { logger } from "./lib/logger";
 
 const app: Express = express();
 
+// Disable ETags and browser caching for all API responses so changes
+// (e.g. Pizza tygodnia edits) are always fetched fresh.
+app.set("etag", false);
+app.use("/api", (_req, res, next) => {
+  res.setHeader("Cache-Control", "no-store");
+  next();
+});
+
 app.use(
   pinoHttp({
     logger,
