@@ -57,6 +57,14 @@ export const menuItems = [
     isFeatured: false,
   },
   {
+    id: 22,
+    name: "Pizza tygodnia",
+    description: "Zapytaj o aktualny skład — zmienia się co tydzień!",
+    price: 38.00,
+    category: "Pizzas",
+    isFeatured: true,
+  },
+  {
     id:7,
     name:"Dolce Vita",
     description: "Pomidory San Marzano, mozzarella fior di latte, szynka Prosciutto Crudo, rukola, pomidorki koktajlowe, platki Grana Padano, oliwa extra vergine, balsamico",

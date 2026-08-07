@@ -1,6 +1,6 @@
 import * as React from "react"
 import { useState, useEffect, useCallback } from "react"
-import { Trash2, Plus, LogOut, CalendarDays, Loader2, Clock, Save, Send } from "lucide-react"
+import { Trash2, Plus, LogOut, CalendarDays, Loader2, Clock, Save, Send, Pizza } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -48,7 +48,7 @@ function formatDate(d: string) {
   })
 }
 
-type AdminTab = "calendar" | "hours" | "telegram"
+type AdminTab = "calendar" | "hours" | "telegram" | "pizza-tygodnia"
 
 const inputCls = "w-full px-3 py-2 bg-secondary border border-secondary-foreground/20 text-secondary-foreground rounded-sm focus:outline-none focus:border-primary text-sm"
 
@@ -75,6 +75,14 @@ export default function Admin() {
   const [hoursSaving, setHoursSaving]   = useState(false)
   const [hoursError, setHoursError]     = useState("")
   const [hoursSaved, setHoursSaved]     = useState(false)
+
+  // ── Pizza tygodnia ───────────────────────────────────────────────────────
+  interface PizzaTygodnia { name: string; description: string; price: number }
+  const [pt, setPt]                       = useState<PizzaTygodnia>({ name: "", description: "", price: 0 })
+  const [ptLoading, setPtLoading]         = useState(false)
+  const [ptSaving, setPtSaving]           = useState(false)
+  const [ptError, setPtError]             = useState("")
+  const [ptSaved, setPtSaved]             = useState(false)
 
   // ── Telegram ─────────────────────────────────────────────────────────────
   const [tg, setTg]                     = useState<TelegramSettings>({ botToken: "", chatId: "", enabled: false })
@@ -121,8 +129,19 @@ export default function Admin() {
     finally { setTgLoading(false) }
   }, [password]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const fetchPt = useCallback(async () => {
+    setPtLoading(true); setPtError("")
+    try {
+      const r = await fetch(`${BASE}/api/admin/pizza-tygodnia`, { headers })
+      if (r.status === 401) { setPtError("Błędne hasło."); return }
+      if (!r.ok) throw new Error()
+      setPt(await r.json())
+    } catch { setPtError("Nie można załadować danych pizzy tygodnia.") }
+    finally { setPtLoading(false) }
+  }, [password]) // eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => {
-    if (authed) { fetchEvents(); fetchHours(); fetchTg() }
+    if (authed) { fetchEvents(); fetchHours(); fetchTg(); fetchPt() }
   }, [authed]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Calendar handlers ────────────────────────────────────────────────────
@@ -175,6 +194,22 @@ export default function Admin() {
       setTimeout(() => setHoursSaved(false), 3000)
     } catch { setHoursError("Nie można połączyć się z serwerem.") }
     finally { setHoursSaving(false) }
+  }
+
+  // ── Pizza tygodnia handler ───────────────────────────────────────────────
+  async function handleSavePt(e: React.FormEvent) {
+    e.preventDefault(); setPtSaving(true); setPtError(""); setPtSaved(false)
+    try {
+      const r = await fetch(`${BASE}/api/admin/pizza-tygodnia`, {
+        method: "PUT", headers,
+        body: JSON.stringify({ name: pt.name, description: pt.description, price: Number(pt.price) }),
+      })
+      if (r.status === 401) { setPtError("Błędne hasło."); return }
+      if (!r.ok) { const j = await r.json().catch(() => ({})); setPtError(j.error ?? "Błąd zapisu."); return }
+      setPt(await r.json()); setPtSaved(true)
+      setTimeout(() => setPtSaved(false), 3000)
+    } catch { setPtError("Nie można połączyć się z serwerem.") }
+    finally { setPtSaving(false) }
   }
 
   // ── Telegram handlers ────────────────────────────────────────────────────
@@ -244,11 +279,12 @@ export default function Admin() {
           </div>
           {/* Tabs */}
           <div className="flex items-center gap-1 border border-secondary-foreground/15 rounded-sm p-0.5">
-            {(["calendar", "hours", "telegram"] as AdminTab[]).map((tab) => {
+            {(["calendar", "hours", "telegram", "pizza-tygodnia"] as AdminTab[]).map((tab) => {
               const labels: Record<AdminTab, { icon: React.ReactNode; label: string }> = {
-                calendar: { icon: <CalendarDays className="h-3.5 w-3.5" />, label: "Kalendarz" },
-                hours:    { icon: <Clock className="h-3.5 w-3.5" />, label: "Godziny" },
-                telegram: { icon: <Send className="h-3.5 w-3.5" />, label: "Telegram" },
+                calendar:        { icon: <CalendarDays className="h-3.5 w-3.5" />, label: "Kalendarz" },
+                hours:           { icon: <Clock className="h-3.5 w-3.5" />, label: "Godziny" },
+                telegram:        { icon: <Send className="h-3.5 w-3.5" />, label: "Telegram" },
+                "pizza-tygodnia": { icon: <Pizza className="h-3.5 w-3.5" />, label: "Pizza tygodnia" },
               }
               const { icon, label } = labels[tab]
               return (
@@ -517,6 +553,86 @@ export default function Admin() {
                 {tgSaved && <span className="text-sm text-green-500 font-sans">✓ Zapisano</span>}
                 {tgTestResult === "ok"   && <span className="text-sm text-green-500 font-sans">✓ Wiadomość wysłana!</span>}
                 {tgTestResult === "fail" && <span className="text-sm text-red-400 font-sans">✗ Wysyłka nieudana</span>}
+              </div>
+            </form>
+          )}
+        </div>
+      )}
+
+      {/* ── Pizza tygodnia tab ───────────────────────────────────────────── */}
+      {activeTab === "pizza-tygodnia" && (
+        <div className="max-w-2xl mx-auto px-6 py-10">
+          <h2 className="font-serif text-xl font-bold mb-2 flex items-center gap-2">
+            <Pizza className="h-5 w-5 text-primary" /> Pizza tygodnia
+          </h2>
+          <p className="text-sm text-secondary-foreground/50 mb-8 font-sans">
+            Zmień nazwę, składniki i cenę specjalnej pizzy tygodnia. Zmiany są od razu widoczne w menu.
+          </p>
+
+          {ptLoading ? (
+            <div className="flex justify-center py-16"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
+          ) : (
+            <form onSubmit={handleSavePt} className="space-y-5">
+
+              {/* Name */}
+              <div>
+                <label className="block text-xs font-medium text-secondary-foreground/60 uppercase tracking-wider mb-1">
+                  Nazwa pizzy
+                </label>
+                <input
+                  type="text"
+                  value={pt.name}
+                  onChange={(e) => setPt({ ...pt, name: e.target.value })}
+                  className={inputCls}
+                  placeholder="np. Pizza tygodnia — Tartufo"
+                  required
+                />
+              </div>
+
+              {/* Ingredients / description */}
+              <div>
+                <label className="block text-xs font-medium text-secondary-foreground/60 uppercase tracking-wider mb-1">
+                  Składniki
+                </label>
+                <textarea
+                  value={pt.description}
+                  onChange={(e) => setPt({ ...pt, description: e.target.value })}
+                  rows={4}
+                  className={cn(inputCls, "resize-none")}
+                  placeholder="np. Sos truflowy, mozzarella fior di latte, pieczarki leśne, parmezan, świeży tymianek."
+                  required
+                />
+                <p className="text-xs text-secondary-foreground/40 mt-1 font-sans">
+                  Ten opis pojawi się pod nazwą pizzy w menu.
+                </p>
+              </div>
+
+              {/* Price */}
+              <div>
+                <label className="block text-xs font-medium text-secondary-foreground/60 uppercase tracking-wider mb-1">
+                  Cena (zł)
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  step="0.5"
+                  value={pt.price || ""}
+                  onChange={(e) => setPt({ ...pt, price: parseFloat(e.target.value) || 0 })}
+                  className={cn(inputCls, "w-40")}
+                  placeholder="38.00"
+                  required
+                />
+              </div>
+
+              {ptError && <p className="text-sm text-red-400">{ptError}</p>}
+
+              <div className="flex items-center gap-3 pt-2">
+                <Button type="submit" className="rounded-sm" disabled={ptSaving}>
+                  {ptSaving
+                    ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Zapisywanie…</>
+                    : <><Save className="h-4 w-4 mr-2" />Zapisz pizzę tygodnia</>}
+                </Button>
+                {ptSaved && <span className="text-sm text-green-500 font-sans">✓ Zapisano</span>}
               </div>
             </form>
           )}

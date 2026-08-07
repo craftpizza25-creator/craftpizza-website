@@ -9,6 +9,7 @@ import adminCalendarRouter from "./admin-calendar";
 import openingHoursRouter from "./opening-hours";
 import adminOpeningHoursRouter from "./admin-opening-hours";
 import adminTelegramRouter from "./admin-telegram";
+import adminPizzaTygodniaRouter from "./admin-pizza-tygodnia";
 
 const router: IRouter = Router();
 
@@ -22,5 +23,6 @@ router.use(adminCalendarRouter);
 router.use(openingHoursRouter);
 router.use(adminOpeningHoursRouter);
 router.use(adminTelegramRouter);
+router.use(adminPizzaTygodniaRouter);
 
 export default router;
