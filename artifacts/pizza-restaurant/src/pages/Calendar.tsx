@@ -1,42 +1,6 @@
 import { useGetCalendarEvents } from "@workspace/api-client-react"
 import { CalendarDays, Clock, MapPin, Phone, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useEffect, useState } from "react"
-
-const BASE = import.meta.env.BASE_URL.replace(/\/$/, "")
-
-interface OpeningHour {
-  id: number
-  dayIndex: number
-  dayName: string
-  openTime: string | null
-  closeTime: string | null
-  isClosed: boolean
-}
-
-const FALLBACK_HOURS = [
-  { dayName: "Poniedziałek", isClosed: true,  openTime: null,    closeTime: null    },
-  { dayName: "Wtorek",       isClosed: true,  openTime: null,    closeTime: null    },
-  { dayName: "Środa",        isClosed: false, openTime: "12:00", closeTime: "21:00" },
-  { dayName: "Czwartek",     isClosed: false, openTime: "12:00", closeTime: "21:00" },
-  { dayName: "Piątek",       isClosed: false, openTime: "12:00", closeTime: "22:00" },
-  { dayName: "Sobota",       isClosed: false, openTime: "12:00", closeTime: "22:00" },
-  { dayName: "Niedziela",    isClosed: false, openTime: "12:00", closeTime: "21:00" },
-]
-
-function useOpeningHours() {
-  const [hours, setHours] = useState<OpeningHour[] | null>(null)
-  useEffect(() => {
-    fetch(`${BASE}/api/opening-hours`)
-      .then((r) => r.ok ? r.json() : Promise.reject())
-      .then(setHours)
-      .catch(() => setHours(null))
-  }, [])
-  return hours
-}
-
-const TODAY = new Date().toLocaleDateString("pl-PL", { weekday: "long" })
-  .replace(/^\w/, (c) => c.toUpperCase())
 
 const EVENT_TYPE_STYLES: Record<string, { label: string; classes: string }> = {
   event:        { label: "Wydarzenie",    classes: "bg-primary/10 text-primary border-primary/20" },
@@ -52,9 +16,17 @@ function formatDate(dateStr: string) {
 }
 
 export default function CalendarPage() {
-  const { data: events, isLoading } = useGetCalendarEvents()
-  const fetchedHours = useOpeningHours()
-  const displayHours = fetchedHours ?? FALLBACK_HOURS
+  const { data: events, isLoading } = useGetCalendarEvents(undefined, {
+    query: {
+      staleTime: 0,
+      refetchOnMount: "always",
+      refetchOnWindowFocus: true,
+      refetchInterval: 30_000,
+    },
+    request: {
+      cache: "no-store",
+    },
+  })
 
   return (
     <div className="min-h-screen bg-secondary text-secondary-foreground">
@@ -86,27 +58,10 @@ export default function CalendarPage() {
                 <Clock className="h-5 w-5 text-primary" />
                 <h2 className="font-serif text-2xl font-bold">Godziny otwarcia</h2>
               </div>
-              <div className="space-y-1">
-                {displayHours.map((row) => {
-                  const isToday = row.dayName.toLowerCase() === TODAY.toLowerCase()
-                  const label = row.isClosed ? "Nieczynne" : `${row.openTime} – ${row.closeTime}`
-                  return (
-                    <div
-                      key={row.dayName}
-                      className={cn(
-                        "flex justify-between items-center py-2.5 px-3 rounded-sm text-sm",
-                        isToday
-                          ? "bg-primary text-primary-foreground font-semibold"
-                          : "hover:bg-secondary-foreground/5 text-secondary-foreground/80"
-                      )}
-                    >
-                      <span>{row.dayName}</span>
-                      <span className={cn(row.isClosed && !isToday && "text-secondary-foreground/40")}>
-                        {label}
-                      </span>
-                    </div>
-                  )
-                })}
+              <div className="rounded-sm border border-secondary-foreground/10 px-4 py-4">
+                <p className="text-secondary-foreground/80 font-sans">
+                  W godzinach wydarzenia
+                </p>
               </div>
             </div>
 
@@ -118,9 +73,9 @@ export default function CalendarPage() {
               </div>
               <div className="space-y-3 text-secondary-foreground/70 text-sm font-sans">
                 <p className="text-secondary-foreground font-medium text-base">Craft Pizza</p>
-                <p>ul. Flisaków 16<br />32-050 Łączany<br />(trasa velo Skawina)</p>
+                <p>Wadowicka 39<br />34-116 Spytkowice</p>
                 <a
-                  href="https://maps.google.com/?q=ul.+Flisaków+16+Łączany"
+                  href="https://maps.google.com/?q=Wadowicka+39,+34-116+Spytkowice"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-primary hover:text-primary/80 transition-colors font-medium mt-1"
@@ -139,6 +94,12 @@ export default function CalendarPage() {
               <p className="text-secondary-foreground/60 text-sm font-sans mb-2">
                 Masz pytania? Zadzwoń lub napisz.
               </p>
+              <a
+                href="tel:+48888118175"
+                className="block text-primary hover:text-primary/80 transition-colors font-medium text-sm mb-2"
+              >
+                +48 888 118 175
+              </a>
               <a
                 href="https://www.instagram.com/craft_pizzaa/"
                 target="_blank"

@@ -13,6 +13,12 @@ import adminPizzaTygodniaRouter from "./admin-pizza-tygodnia";
 
 const router: IRouter = Router();
 
+// The artifact publishing readiness probe checks the API mount root.
+// Keep this dependency-free so the service can become ready before DB seeds finish.
+router.get("/", (_req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 router.use(healthRouter);
 router.use(menuRouter);
 router.use(ordersRouter);

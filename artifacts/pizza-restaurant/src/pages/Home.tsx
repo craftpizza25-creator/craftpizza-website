@@ -91,11 +91,11 @@ export default function Home() {
               <div className="pt-4 flex flex-col gap-4">
                 <div className="flex items-center gap-3 text-foreground/80">
                   <MapPin className="h-5 w-5 text-primary" />
-                  <span>ul. Flisaków 16, Łączany – trasa velo Skawina</span>
+                  <span>Wadowicka 39, 34-116 Spytkowice</span>
                 </div>
                 <div className="flex items-center gap-3 text-foreground/80">
                   <Clock className="h-5 w-5 text-primary" />
-                  <span>Czynne pt 18:00–22:00, sob–nd 10:00–21:00</span>
+                  <span>Czynne w godzinach wydarzenia</span>
                 </div>
               </div>
             </div>

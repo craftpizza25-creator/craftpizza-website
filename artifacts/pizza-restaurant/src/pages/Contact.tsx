@@ -3,7 +3,7 @@ import { useSubmitContact } from "@workspace/api-client-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { MapPin, Phone, Mail, Clock, Send } from "lucide-react"
+import { MapPin, Phone, Mail, Clock, Send, Instagram } from "lucide-react"
 
 export default function Contact() {
   const submitContact = useSubmitContact()
@@ -55,8 +55,14 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground text-lg mb-1">Adres</h3>
-                    <p className="text-muted-foreground">ul. Flisaków 16, Łączany</p>
-                    <p className="text-muted-foreground">trasa velo Skawina</p>
+                    <a
+                      href="https://maps.google.com/?q=Wadowicka+39,+34-116+Spytkowice"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      Wadowicka 39, 34-116 Spytkowice
+                    </a>
                   </div>
                 </div>
 
@@ -66,8 +72,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground text-lg mb-1">Godziny otwarcia</h3>
-                    <p className="text-muted-foreground">Piątek: 18:00 – 22:00</p>
-                    <p className="text-muted-foreground">Sobota – Niedziela: 10:00 – 21:00</p>
+                    <p className="text-muted-foreground">W godzinach wydarzenia</p>
                   </div>
                 </div>
 
@@ -77,7 +82,9 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground text-lg mb-1">Telefon</h3>
-                    <p className="text-muted-foreground">+48 888 118 175</p>
+                    <a href="tel:+48888118175" className="text-muted-foreground hover:text-primary transition-colors">
+                      +48 888 118 175
+                    </a>
                   </div>
                 </div>
 
@@ -88,6 +95,23 @@ export default function Contact() {
                   <div>
                     <h3 className="font-medium text-foreground text-lg mb-1">E-mail</h3>
                     <p className="text-muted-foreground">craftpizza25@gmail.com</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center shrink-0">
+                    <Instagram className="text-primary w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-foreground text-lg mb-1">Instagram</h3>
+                    <a
+                      href="https://www.instagram.com/craft_pizzaa"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      @craft_pizzaa
+                    </a>
                   </div>
                 </div>
               </div>
@@ -103,7 +127,7 @@ export default function Contact() {
                 loading="lazy"
                 allowFullScreen
                 referrerPolicy="no-referrer-when-downgrade"
-                src="https://maps.google.com/maps?q=XHJM%2BPH+%C5%81%C4%85czany&output=embed"
+                src="https://www.google.com/maps?q=Wadowicka%2039%2C%2034-116%20Spytkowice%2C%20Polska&hl=pl&z=16&output=embed"
               />
             </div>
           </div>

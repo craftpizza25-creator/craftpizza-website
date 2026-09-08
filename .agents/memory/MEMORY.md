@@ -1,0 +1,1 @@
+- [Health check publikacji API](deployment-api-healthcheck.md) — readiness probe może sprawdzać `/api` mimo skonfigurowanego `/api/healthz`; oba muszą zwracać 200.
